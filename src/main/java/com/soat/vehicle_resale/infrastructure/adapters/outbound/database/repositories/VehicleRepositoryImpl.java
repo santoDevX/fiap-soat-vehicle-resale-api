@@ -1,6 +1,7 @@
 package com.soat.vehicle_resale.infrastructure.adapters.outbound.database.repositories;
 
 import com.soat.vehicle_resale.core.application.ports.outbound.VehicleRepositoryPort;
+import com.soat.vehicle_resale.core.domain.exceptions.VehicleNotFoundException;
 import com.soat.vehicle_resale.core.domain.models.Vehicle;
 import com.soat.vehicle_resale.core.domain.models.VehicleStatus;
 import com.soat.vehicle_resale.infrastructure.adapters.outbound.database.mappers.VehicleEntityMapper;
@@ -26,6 +27,15 @@ public class VehicleRepositoryImpl implements VehicleRepositoryPort {
     }
 
     @Override
+    public Vehicle update(Vehicle vehicle) {
+        var entity = jpaRepository.findById(vehicle.id())
+                .orElseThrow(VehicleNotFoundException::new);
+
+        mapper.updateEntityFromDomain(vehicle, entity);
+        return mapper.fromEntity(jpaRepository.save(entity));
+    }
+
+    @Override
     public List<Vehicle> findByStatus(VehicleStatus status) {
         return jpaRepository.findByStatusOrderByPriceAsc(status).stream()
                 .map(mapper::fromEntity)
@@ -33,7 +43,7 @@ public class VehicleRepositoryImpl implements VehicleRepositoryPort {
     }
 
     @Override
-    public Optional<Vehicle> findById(Long id) {
-        return jpaRepository.findById(id).map(mapper::fromEntity);
+    public Optional<Vehicle> findByIdForUpdate(Long id) {
+        return jpaRepository.findByIdForUpdate(id).map(mapper::fromEntity);
     }
 }
