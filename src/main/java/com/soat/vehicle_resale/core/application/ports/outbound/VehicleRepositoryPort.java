@@ -9,7 +9,9 @@ import java.util.Optional;
 public interface VehicleRepositoryPort {
     Vehicle save(Vehicle vehicle);
 
+    Vehicle update(Vehicle vehicle);
+
     List<Vehicle> findByStatus(VehicleStatus status);
 
-    Optional<Vehicle> findById(Long id);
+    Optional<Vehicle> findByIdForUpdate(Long id);
 }

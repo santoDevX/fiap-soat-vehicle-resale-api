@@ -22,7 +22,7 @@ public class SaleService implements SalePurchaseUseCase {
     @Override
     @Transactional
     public Sale purchase(Long vehicleId, String buyerId) {
-        var vehicle = vehicleRepository.findById(vehicleId)
+        var vehicle = vehicleRepository.findByIdForUpdate(vehicleId)
                 .orElseThrow(VehicleNotFoundException::new);
 
         if (vehicle.status() == VehicleStatus.SOLD) {
