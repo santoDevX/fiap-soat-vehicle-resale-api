@@ -8,7 +8,7 @@ services:
       SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/vehicledb
       SPRING_DATASOURCE_USERNAME: vehicleuser
       SPRING_DATASOURCE_PASSWORD: vehiclepass
-      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      SPRING_JPA_HIBERNATE_DDL_AUTO: validate
     depends_on:
       - db
 
