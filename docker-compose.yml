@@ -1,0 +1,28 @@
+services:
+  api:
+    build: .
+    container_name: vehicle-api
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/vehicledb
+      SPRING_DATASOURCE_USERNAME: vehicleuser
+      SPRING_DATASOURCE_PASSWORD: vehiclepass
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+    depends_on:
+      - db
+
+  db:
+    image: postgres:17
+    container_name: vehicle-db
+    environment:
+      POSTGRES_DB: vehicledb
+      POSTGRES_USER: vehicleuser
+      POSTGRES_PASSWORD: vehiclepass
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:
