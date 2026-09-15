@@ -110,4 +110,19 @@ class VehicleRepositoryImplTest {
 
         assertThat(result).isEmpty();
     }
+
+    @Test
+    void shouldDefaultStatusToAvailable_whenPersistingEntityWithoutStatus() {
+        var entity = new VehicleEntity();
+        entity.setBrand("Fiat");
+        entity.setModel("Uno");
+        entity.setColor("White");
+        entity.setYear(2020);
+        entity.setDescription("desc");
+        entity.setPrice(BigDecimal.valueOf(50000));
+
+        var persisted = entityManager.persistFlushFind(entity);
+
+        assertThat(persisted.getStatus()).isEqualTo(VehicleStatus.AVAILABLE);
+    }
 }

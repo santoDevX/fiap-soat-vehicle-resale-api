@@ -71,4 +71,17 @@ class SaleRepositoryImplTest {
         assertThatThrownBy(() -> repository.save(duplicate))
                 .isInstanceOf(DataIntegrityViolationException.class);
     }
+
+    @Test
+    void shouldUpdateUpdatedAtTimestamp_whenPersistedSaleIsModified() {
+        var vehicleId = persistVehicle();
+        var persisted = entityManager.persistFlushFind(new SaleEntity(null, vehicleId, "buyer-1",
+                BigDecimal.valueOf(50000), null, null));
+        var originalUpdatedAt = persisted.getUpdatedAt();
+
+        persisted.setBuyerId("buyer-2");
+        entityManager.persistAndFlush(persisted);
+
+        assertThat(persisted.getUpdatedAt()).isAfter(originalUpdatedAt);
+    }
 }
