@@ -92,7 +92,8 @@ jacocoTestCoverageVerification {
 		classDirectories.setFrom(files(classDirectories.files.collect {
 			fileTree(dir: it, include: [
 					'com/soat/vehicle_resale/core/domain/**',
-					'com/soat/vehicle_resale/core/application/**'
+					'com/soat/vehicle_resale/core/application/**',
+					'com/soat/vehicle_resale/infrastructure/adapters/outbound/**'
 			])
 		}))
 	}
