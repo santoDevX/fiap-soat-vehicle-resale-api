@@ -33,7 +33,7 @@ resource "aws_security_group" "ec2" {
 
 resource "aws_security_group" "rds" {
   name        = "${var.project_name}-rds-sg"
-  description = "SG do RDS Postgres, só acessível a partir da EC2 da API"
+  description = "SG do RDS Postgres, so acessivel a partir da EC2 da API"
   vpc_id      = data.aws_vpc.default.id
 
   ingress {
