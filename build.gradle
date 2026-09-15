@@ -93,7 +93,7 @@ jacocoTestCoverageVerification {
 			fileTree(dir: it, include: [
 					'com/soat/vehicle_resale/core/domain/**',
 					'com/soat/vehicle_resale/core/application/**',
-					'com/soat/vehicle_resale/infrastructure/adapters/outbound/**'
+					'com/soat/vehicle_resale/infrastructure/adapters/**'
 			])
 		}))
 	}
