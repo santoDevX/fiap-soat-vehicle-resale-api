@@ -13,7 +13,7 @@ CREATE TABLE vehicles (
 
 CREATE TABLE sales (
                        id BIGSERIAL PRIMARY KEY,
-                       vehicle_id BIGINT NOT NULL REFERENCES vehicles(id),
+                       vehicle_id BIGINT NOT NULL UNIQUE REFERENCES vehicles(id),
                        buyer_id VARCHAR(100) NOT NULL,
                        total_amount NUMERIC(12,2) NOT NULL,
                        created_at TIMESTAMP NOT NULL,
