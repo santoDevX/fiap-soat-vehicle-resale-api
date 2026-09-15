@@ -1,0 +1,34 @@
+spring:
+  application:
+    name: vehicle-resale
+
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/vehicledb}
+    username: ${SPRING_DATASOURCE_USERNAME:vehicleuser}
+    password: ${SPRING_DATASOURCE_PASSWORD:vehiclepass}
+
+  jpa:
+    hibernate:
+      ddl-auto: ${SPRING_JPA_HIBERNATE_DDL_AUTO:validate}
+    open-in-view: false
+    properties:
+      hibernate:
+        format_sql: true
+
+  flyway:
+    enabled: true
+
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${OAUTH_ISSUER_URI:http://localhost:8081/realms/vehicle-resale}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+
+server:
+  port: 8080
