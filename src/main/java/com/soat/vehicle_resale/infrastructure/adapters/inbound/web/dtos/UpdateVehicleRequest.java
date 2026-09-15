@@ -33,16 +33,16 @@ public record UpdateVehicleRequest(
         @DecimalMin(value = "0.01")
         BigDecimal price
 ) {
-        public Vehicle toDomain(Long vehicleId) {
-                return new Vehicle(
-                        vehicleId,
-                        this.brand(),
-                        this.model(),
-                        this.color(),
-                        this.year(),
-                        this.description(),
-                        this.price(),
-                        null
-                );
-        }
+    public Vehicle toDomain(Long vehicleId) {
+        return new Vehicle(
+                vehicleId,
+                this.brand(),
+                this.model(),
+                this.color(),
+                this.year(),
+                this.description(),
+                this.price(),
+                null
+        );
+    }
 }
