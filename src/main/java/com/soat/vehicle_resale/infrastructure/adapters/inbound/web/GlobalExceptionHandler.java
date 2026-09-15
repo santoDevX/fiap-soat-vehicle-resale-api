@@ -1,5 +1,6 @@
 package com.soat.vehicle_resale.infrastructure.adapters.inbound.web;
 
+import com.soat.vehicle_resale.core.domain.exceptions.InvalidVehicleException;
 import com.soat.vehicle_resale.core.domain.exceptions.VehicleAlreadySoldException;
 import com.soat.vehicle_resale.core.domain.exceptions.VehicleNotFoundException;
 import org.springframework.http.HttpStatus;
@@ -22,6 +23,12 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ApiError> handleAlreadySold(VehicleAlreadySoldException ex) {
         return ResponseEntity.status(HttpStatus.CONFLICT)
                 .body(ApiError.of(HttpStatus.CONFLICT, ex.getMessage()));
+    }
+
+    @ExceptionHandler(InvalidVehicleException.class)
+    public ResponseEntity<ApiError> handleInvalidVehicle(InvalidVehicleException ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(ApiError.of(HttpStatus.BAD_REQUEST, ex.getMessage()));
     }
 
     // DTO local do handler, nao usa o nome ErrorResponse pra nao colidir com org.springframework.web.ErrorResponse
