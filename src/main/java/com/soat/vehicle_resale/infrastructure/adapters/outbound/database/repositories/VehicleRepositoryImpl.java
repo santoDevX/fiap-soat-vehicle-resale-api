@@ -1,7 +1,6 @@
 package com.soat.vehicle_resale.infrastructure.adapters.outbound.database.repositories;
 
 import com.soat.vehicle_resale.core.application.ports.outbound.VehicleRepositoryPort;
-import com.soat.vehicle_resale.core.domain.exceptions.VehicleNotFoundException;
 import com.soat.vehicle_resale.core.domain.models.Vehicle;
 import com.soat.vehicle_resale.core.domain.models.VehicleStatus;
 import com.soat.vehicle_resale.infrastructure.adapters.outbound.database.mappers.VehicleEntityMapper;
@@ -28,8 +27,9 @@ public class VehicleRepositoryImpl implements VehicleRepositoryPort {
 
     @Override
     public Vehicle update(Vehicle vehicle) {
-        var entity = jpaRepository.findById(vehicle.id())
-                .orElseThrow(VehicleNotFoundException::new);
+        // existencia ja validada pelo VehicleService.update via findByIdForUpdate (com lock);
+        // getReferenceById evita um segundo SELECT e nao valida existencia
+        var entity = jpaRepository.getReferenceById(vehicle.id());
 
         mapper.updateEntityFromDomain(vehicle, entity);
         return mapper.fromEntity(jpaRepository.save(entity));
