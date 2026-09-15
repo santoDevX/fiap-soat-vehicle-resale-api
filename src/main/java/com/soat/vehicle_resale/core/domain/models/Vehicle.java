@@ -1,5 +1,7 @@
 package com.soat.vehicle_resale.core.domain.models;
 
+import com.soat.vehicle_resale.core.domain.exceptions.InvalidVehicleException;
+
 import java.math.BigDecimal;
 import java.time.Year;
 import java.time.ZoneId;
@@ -16,7 +18,7 @@ public record Vehicle(
 ) {
     public Vehicle {
         if (year != null && year > Year.now(ZoneId.of("UTC")).getValue() + 1) {
-            throw new IllegalArgumentException("Vehicle year cannot be in the far future");
+            throw new InvalidVehicleException("Vehicle year cannot be in the far future");
         }
     }
 }
