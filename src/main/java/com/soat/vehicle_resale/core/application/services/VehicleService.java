@@ -1,8 +1,7 @@
 package com.soat.vehicle_resale.core.application.services;
 
 import com.soat.vehicle_resale.core.application.ports.inbound.usecase.VehicleCreateUseCase;
-import com.soat.vehicle_resale.core.application.ports.inbound.usecase.VehicleFindAvailableUseCase;
-import com.soat.vehicle_resale.core.application.ports.inbound.usecase.VehicleFindSoldUseCase;
+import com.soat.vehicle_resale.core.application.ports.inbound.usecase.VehicleFindUseCase;
 import com.soat.vehicle_resale.core.application.ports.inbound.usecase.VehicleUpdateUseCase;
 import com.soat.vehicle_resale.core.application.ports.outbound.VehicleRepositoryPort;
 import com.soat.vehicle_resale.core.domain.exceptions.VehicleAlreadySoldException;
@@ -19,8 +18,7 @@ import java.util.List;
 @AllArgsConstructor
 public class VehicleService implements VehicleCreateUseCase,
         VehicleUpdateUseCase,
-        VehicleFindAvailableUseCase,
-        VehicleFindSoldUseCase {
+        VehicleFindUseCase {
 
     private final VehicleRepositoryPort repository;
 
@@ -42,20 +40,14 @@ public class VehicleService implements VehicleCreateUseCase,
             throw new VehicleAlreadySoldException();
         }
 
-        // o status atual e preservado pelo mapper (VehicleEntityMapper.updateEntityFromDomain
-        // ignora o campo status).
+        // o status atual e preservado pelo mapper que ignora o campo status.
         return repository.update(vehicle);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public List<Vehicle> findAvailable() {
-        return repository.findByStatus(VehicleStatus.AVAILABLE);
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public List<Vehicle> findSold() {
-        return repository.findByStatus(VehicleStatus.SOLD);
+    public List<Vehicle> find(VehicleStatus status) {
+        var effectiveStatus = status != null ? status : VehicleStatus.AVAILABLE;
+        return repository.findByStatus(effectiveStatus);
     }
 }
