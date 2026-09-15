@@ -2,6 +2,7 @@ package com.soat.vehicle_resale.infrastructure.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -21,10 +22,10 @@ public class SecurityConfig {
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/actuator/health").permitAll()
-                        .requestMatchers(org.springframework.http.HttpMethod.GET, "/vehicles/**").permitAll()
-                        .requestMatchers(org.springframework.http.HttpMethod.POST, "/vehicles").hasRole("ADMIN")
-                        .requestMatchers(org.springframework.http.HttpMethod.PUT, "/vehicles/**").hasRole("ADMIN")
-                        .requestMatchers(org.springframework.http.HttpMethod.POST, "/vehicles/*/purchase").hasRole("CUSTOMER")
+                        .requestMatchers(HttpMethod.GET, "/vehicles/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/vehicles").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/vehicles/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/vehicles/*/purchase").hasRole("CUSTOMER")
                         .anyRequest().authenticated()
                 )
                 .oauth2ResourceServer(oauth2 ->
