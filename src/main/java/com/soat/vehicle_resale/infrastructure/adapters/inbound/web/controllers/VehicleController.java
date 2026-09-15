@@ -1,9 +1,9 @@
 package com.soat.vehicle_resale.infrastructure.adapters.inbound.web.controllers;
 
 import com.soat.vehicle_resale.core.application.ports.inbound.usecase.VehicleCreateUseCase;
-import com.soat.vehicle_resale.core.application.ports.inbound.usecase.VehicleFindAvailableUseCase;
-import com.soat.vehicle_resale.core.application.ports.inbound.usecase.VehicleFindSoldUseCase;
+import com.soat.vehicle_resale.core.application.ports.inbound.usecase.VehicleFindUseCase;
 import com.soat.vehicle_resale.core.application.ports.inbound.usecase.VehicleUpdateUseCase;
+import com.soat.vehicle_resale.core.domain.models.VehicleStatus;
 import com.soat.vehicle_resale.infrastructure.adapters.inbound.web.dtos.CreateVehicleRequest;
 import com.soat.vehicle_resale.infrastructure.adapters.inbound.web.dtos.UpdateVehicleRequest;
 import com.soat.vehicle_resale.infrastructure.adapters.inbound.web.dtos.VehicleResponse;
@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.net.URI;
@@ -28,8 +29,7 @@ public class VehicleController {
 
     private final VehicleCreateUseCase createUseCase;
     private final VehicleUpdateUseCase updateUseCase;
-    private final VehicleFindAvailableUseCase findAvailableUseCase;
-    private final VehicleFindSoldUseCase findSoldUseCase;
+    private final VehicleFindUseCase findUseCase;
 
     @PostMapping
     public ResponseEntity<VehicleResponse> create(@Valid @RequestBody CreateVehicleRequest request) {
@@ -48,15 +48,8 @@ public class VehicleController {
     }
 
     @GetMapping
-    public List<VehicleResponse> findAvailable() {
-        return findAvailableUseCase.findAvailable().stream()
-                .map(VehicleResponse::fromDomain)
-                .toList();
-    }
-
-    @GetMapping("/sold")
-    public List<VehicleResponse> findSold() {
-        return findSoldUseCase.findSold().stream()
+    public List<VehicleResponse> find(@RequestParam(required = false) VehicleStatus status) {
+        return findUseCase.find(status).stream()
                 .map(VehicleResponse::fromDomain)
                 .toList();
     }
