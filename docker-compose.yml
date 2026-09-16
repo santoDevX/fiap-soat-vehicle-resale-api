@@ -1,5 +1,5 @@
 services:
-  api:
+  app:
     build: .
     container_name: vehicle-api
     ports:
