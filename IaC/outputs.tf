@@ -1,5 +1,5 @@
 output "api_public_ip" {
-  description = "IP público (fixo) da EC2 que roda a API. Usado pelo deploy.yml como alvo do SSH."
+  description = "IP público (fixo) da EC2 que roda a API."
   value       = aws_eip.api.public_ip
 }
 

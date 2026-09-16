@@ -1,0 +1,10 @@
+info:
+  name: Vehicles
+  type: folder
+
+request:
+  auth: inherit
+
+docs:
+  content: Cadastro, atualização e consulta de veículos
+  type: text/markdown

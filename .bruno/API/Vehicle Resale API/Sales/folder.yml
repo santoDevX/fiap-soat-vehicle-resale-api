@@ -1,0 +1,10 @@
+info:
+  name: Sales
+  type: folder
+
+request:
+  auth: inherit
+
+docs:
+  content: Compra de veículos
+  type: text/markdown

@@ -1,0 +1,70 @@
+info:
+  name: Listar veículos
+  type: http
+  seq: 2
+  tags:
+    - Vehicles
+
+http:
+  method: GET
+  url: "{{baseUrl}}/vehicles"
+  params:
+    - name: status
+      value: AVAILABLE
+      type: query
+      description: "Status para filtrar os veículos (ex: AVAILABLE, SOLD)"
+      disabled: true
+    - name: status
+      value: SOLD
+      type: query
+      description: "Status para filtrar os veículos (ex: AVAILABLE, SOLD)"
+      disabled: true
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: false
+
+examples:
+  - name: 200 Response
+    description: Lista de veículos retornada com sucesso
+    request:
+      url: "{{baseUrl}}/vehicles"
+      method: GET
+      params:
+        - name: status
+          value: AVAILABLE
+          type: query
+          description: "Status para filtrar os veículos (ex: AVAILABLE, SOLD)"
+          disabled: true
+        - name: status
+          value: SOLD
+          type: query
+          description: "Status para filtrar os veículos (ex: AVAILABLE, SOLD)"
+          disabled: true
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: Content-Type
+          value: "*/*"
+      body:
+        type: text
+        data: |-
+          [
+            {
+              "id": 0,
+              "brand": "",
+              "model": "",
+              "color": "",
+              "year": 0,
+              "description": "",
+              "price": 0,
+              "status": "AVAILABLE"
+            }
+          ]
+
+docs: Lista veículos, opcionalmente filtrando por status.
