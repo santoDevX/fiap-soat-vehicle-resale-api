@@ -24,6 +24,10 @@ spring:
         jwt:
           issuer-uri: ${OAUTH_ISSUER_URI:http://localhost:8081/realms/vehicle-resale}
 
+springdoc:
+  swagger-ui:
+    path: /swagger
+
 management:
   endpoints:
     web:
