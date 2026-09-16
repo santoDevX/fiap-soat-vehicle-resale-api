@@ -36,3 +36,14 @@ management:
 
 server:
   port: 8080
+
+---
+spring:
+  config:
+    activate:
+      on-profile: docker
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: ${OAUTH_JWK_SET_URI}
