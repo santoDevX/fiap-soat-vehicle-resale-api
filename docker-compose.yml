@@ -9,8 +9,13 @@ services:
       SPRING_DATASOURCE_USERNAME: vehicleuser
       SPRING_DATASOURCE_PASSWORD: vehiclepass
       SPRING_JPA_HIBERNATE_DDL_AUTO: validate
+      SPRING_PROFILES_ACTIVE: docker
+      OAUTH_JWK_SET_URI: http://vehicle-keycloak:8080/realms/vehicle-resale/protocol/openid-connect/certs
     depends_on:
       - db
+    networks:
+      - default
+      - idp
 
   db:
     image: postgres:17
@@ -26,3 +31,8 @@ services:
 
 volumes:
   pgdata:
+
+networks:
+  idp:
+    external: true
+    name: fiap-soat-vehicle-resale-idp_default
