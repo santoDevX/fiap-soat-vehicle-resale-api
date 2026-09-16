@@ -1,7 +1,24 @@
+# Historico git nao e necessario no contexto de build
 .git
-.gradle
+.github
+
+# IDE e ferramentas locais
 .idea
-build
-IaC
 .bruno
+.gradle
+
+build
+
+# Terraform nao e usado pelo build
+iac
+IaC
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfvars
+
+# Segredos locais
+*.env
+
+# Docs nao entram na imagem
 *.md
