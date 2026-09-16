@@ -91,17 +91,23 @@ jobs:
           terraform apply -auto-approve -input=false
           echo "ip=$(terraform output -raw api_public_ip)" >> "$GITHUB_OUTPUT"
 
-      - name: Wait for SSH
+      - name: Wait for instance to finish booting
         run: |
+          echo "${{ secrets.EC2_SSH_PRIVATE_KEY }}" > /tmp/deploy_key
+          chmod 600 /tmp/deploy_key
           for i in $(seq 1 30); do
-            if nc -z -w5 "${{ steps.tf.outputs.ip }}" 22; then
-              echo "SSH disponível"
+            if ssh -o StrictHostKeyChecking=no -o ConnectTimeout=10 \
+                 -i /tmp/deploy_key ec2-user@"${{ steps.tf.outputs.ip }}" \
+                 'sudo cloud-init status --wait' 2>/dev/null; then
+              echo "Instância pronta"
+              rm -f /tmp/deploy_key
               exit 0
             fi
-            echo "Aguardando SSH ficar disponível... ($i/30)"
+            echo "Aguardando instância terminar o boot... ($i/30)"
             sleep 10
           done
-          echo "Timeout esperando SSH"
+          echo "Timeout esperando a instância ficar pronta"
+          rm -f /tmp/deploy_key
           exit 1
 
       - name: Deploy to EC2
