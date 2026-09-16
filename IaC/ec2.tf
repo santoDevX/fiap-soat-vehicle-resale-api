@@ -67,6 +67,18 @@ resource "aws_instance" "api" {
     app_port       = var.app_port
   })
 
+  user_data_replace_on_change = true
+
+  # IMDSv2 obrigatorio: exige token pra consultar o metadata service,
+  # mitigando SSRF que tentaria roubar credenciais da instance role.
+  metadata_options {
+    http_tokens = "required"
+  }
+
+  root_block_device {
+    encrypted = true
+  }
+
   tags = {
     Name = "${var.project_name}-api"
   }

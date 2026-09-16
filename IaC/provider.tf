@@ -1,5 +1,5 @@
 terraform {
-  required_version = ">= 1.5.0"
+  required_version = ">= 1.10.0" # use_lockfile no backend.tf exige isso
 
   required_providers {
     aws = {
