@@ -1,0 +1,161 @@
+info:
+  name: Atualizar veículo
+  type: http
+  seq: 1
+  tags:
+    - Vehicles
+
+http:
+  method: PUT
+  url: "{{baseUrl}}/vehicles/:vehicleId"
+  params:
+    - name: vehicleId
+      value: ""
+      type: path
+      description: ID do veículo
+  body:
+    type: json
+    data: |-
+      {
+        "brand": "",
+        "model": "",
+        "color": "",
+        "year": 0,
+        "description": "",
+        "price": 0
+      }
+  auth:
+    type: bearer
+    token: "{{token}}"
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: false
+
+examples:
+  - name: 200 Response
+    description: Veículo atualizado com sucesso
+    request:
+      url: "{{baseUrl}}/vehicles/:vehicleId"
+      method: PUT
+      params:
+        - name: vehicleId
+          value: ""
+          type: path
+          description: ID do veículo
+      body:
+        type: json
+        data: |-
+          {
+            "brand": "",
+            "model": "",
+            "color": "",
+            "year": 0,
+            "description": "",
+            "price": 0
+          }
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: Content-Type
+          value: "*/*"
+      body:
+        type: text
+        data: |-
+          {
+            "id": 0,
+            "brand": "",
+            "model": "",
+            "color": "",
+            "year": 0,
+            "description": "",
+            "price": 0,
+            "status": "AVAILABLE"
+          }
+  - name: 400 Response
+    description: Dados inválidos
+    request:
+      url: "{{baseUrl}}/vehicles/:vehicleId"
+      method: PUT
+      params:
+        - name: vehicleId
+          value: ""
+          type: path
+          description: ID do veículo
+      body:
+        type: json
+        data: |-
+          {
+            "brand": "",
+            "model": "",
+            "color": "",
+            "year": 0,
+            "description": "",
+            "price": 0
+          }
+    response:
+      status: 400
+      statusText: Bad Request
+      body:
+        type: text
+        data: ""
+  - name: 404 Response
+    description: Veículo não encontrado
+    request:
+      url: "{{baseUrl}}/vehicles/:vehicleId"
+      method: PUT
+      params:
+        - name: vehicleId
+          value: ""
+          type: path
+          description: ID do veículo
+      body:
+        type: json
+        data: |-
+          {
+            "brand": "",
+            "model": "",
+            "color": "",
+            "year": 0,
+            "description": "",
+            "price": 0
+          }
+    response:
+      status: 404
+      statusText: Not Found
+      body:
+        type: text
+        data: ""
+  - name: 409 Response
+    description: Veículo já vendido
+    request:
+      url: "{{baseUrl}}/vehicles/:vehicleId"
+      method: PUT
+      params:
+        - name: vehicleId
+          value: ""
+          type: path
+          description: ID do veículo
+      body:
+        type: json
+        data: |-
+          {
+            "brand": "",
+            "model": "",
+            "color": "",
+            "year": 0,
+            "description": "",
+            "price": 0
+          }
+    response:
+      status: 409
+      statusText: Conflict
+      body:
+        type: text
+        data: ""
+
+docs: Atualiza os dados de um veículo existente pelo seu ID. Requer role ADMIN.

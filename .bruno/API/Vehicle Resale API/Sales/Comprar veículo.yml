@@ -1,0 +1,87 @@
+info:
+  name: Comprar veículo
+  type: http
+  seq: 1
+  tags:
+    - Sales
+
+http:
+  method: POST
+  url: "{{baseUrl}}/vehicles/:vehicleId/purchase"
+  params:
+    - name: vehicleId
+      value: ""
+      type: path
+      description: ID do veículo a ser comprado
+  auth:
+    type: bearer
+    token: "{{token}}"
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: false
+
+examples:
+  - name: 201 Response
+    description: Compra realizada com sucesso
+    request:
+      url: "{{baseUrl}}/vehicles/:vehicleId/purchase"
+      method: POST
+      params:
+        - name: vehicleId
+          value: ""
+          type: path
+          description: ID do veículo a ser comprado
+    response:
+      status: 201
+      statusText: Created
+      headers:
+        - name: Content-Type
+          value: "*/*"
+      body:
+        type: text
+        data: |-
+          {
+            "saleId": 0,
+            "vehicleId": 0,
+            "buyerId": "",
+            "totalAmount": 0,
+            "soldAt": ""
+          }
+  - name: 404 Response
+    description: Veículo não encontrado
+    request:
+      url: "{{baseUrl}}/vehicles/:vehicleId/purchase"
+      method: POST
+      params:
+        - name: vehicleId
+          value: ""
+          type: path
+          description: ID do veículo a ser comprado
+    response:
+      status: 404
+      statusText: Not Found
+      body:
+        type: text
+        data: ""
+  - name: 409 Response
+    description: Veículo já vendido
+    request:
+      url: "{{baseUrl}}/vehicles/:vehicleId/purchase"
+      method: POST
+      params:
+        - name: vehicleId
+          value: ""
+          type: path
+          description: ID do veículo a ser comprado
+    response:
+      status: 409
+      statusText: Conflict
+      body:
+        type: text
+        data: ""
+
+docs: Efetua a compra de um veículo disponível. O comprador é identificado pelo token JWT autenticado. Requer role CUSTOMER.
